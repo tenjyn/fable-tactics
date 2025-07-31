@@ -1,0 +1,10 @@
+{
+  "name": "fable-tactics",
+  "version": "1.0.0",
+  "description": "Micro battle tactics demo",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx http-server .",
+    "test": "echo \"No tests specified\""
+  }
+}
