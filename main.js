@@ -86,7 +86,8 @@ function getUnitAt(x, y) {
 function endTurn() {
   currentTeam = currentTeam === "blue" ? "red" : "blue";
   selectedUnit = null;
-  document.getElementById("turnIndicator").innerText = currentTeam + " Team's Turn";
+  document.getElementById("turnIndicator").innerText =
+    currentTeam + " Team's Turn";
   checkWinCondition();
 }
 
@@ -105,7 +106,8 @@ canvas.addEventListener("click", (e) => {
   const clickedUnit = getUnitAt(x, y);
 
   if (selectedUnit && selectedUnit.team === currentTeam) {
-    if (clickedUnit && clickedUnit.team !== currentTeam && selectedUnit.canAttack(x, y)) {
+    if (clickedUnit && clickedUnit.team !== currentTeam &&
+        selectedUnit.canAttack(x, y)) {
       clickedUnit.hp -= 1;
       if (clickedUnit.hp <= 0) clickedUnit.alive = false;
       endTurn();
@@ -146,7 +148,8 @@ function init() {
   units.push(new Unit("Cleric", "red", 3, 7, 2, 2, 1));
   units.push(new Unit("Cartographer", "red", 4, 7, 2, 3, 2));
 
-  document.getElementById("turnIndicator").innerText = currentTeam + " Team's Turn";
+  document.getElementById("turnIndicator").innerText =
+    currentTeam + " Team's Turn";
   gameLoop();
 }
 
