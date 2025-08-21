@@ -17,7 +17,8 @@ function makePiece(color, kind, stats){
     hp: stats.hp,
     atk: stats.atk,
     def: stats.def,
-    move: stats.move || 0
+    move: stats.move || 0,
+    moved: false
   };
 }
 
@@ -110,7 +111,10 @@ function onDrop(source, target) {
 
   if (!defId) {
     movePiece(pid, target);
-    log(`${prettyPiece(attacker)} to ${target}`);
+    const [sr] = sqToRC(source);
+    const [tr] = sqToRC(target);
+    const dbl = attacker.kind === 'P' && Math.abs(sr - tr) === 2;
+    log(`${prettyPiece(attacker)} to ${target}${dbl?' (double)':''}`);
   } else {
     const defender = S.pieces[defId];
     const dmg = Math.max(1, attacker.atk - defender.def);
@@ -162,7 +166,16 @@ function movesPawn(p, from){
   const moves = [];
   const dir = p.color==='w' ? 1 : -1;
   const fr = r - dir;
-  if (inBounds(fr,c) && !S.pos[rcToSq(fr,c)]) moves.push({from, to: rcToSq(fr,c)});
+  const oneSq = rcToSq(fr,c);
+  if (inBounds(fr,c) && !S.pos[oneSq]) {
+    moves.push({from, to: oneSq});
+    const startRank = p.color==='w' ? 6 : 1;
+    const fr2 = r - 2*dir;
+    const twoSq = rcToSq(fr2,c);
+    if (!p.moved && r === startRank && inBounds(fr2,c) && !S.pos[twoSq]) {
+      moves.push({from, to: twoSq});
+    }
+  }
   for (const dc of [-1,1]) {
     const tr = r - dir, tc = c + dc;
     if (!inBounds(tr,tc)) continue;
@@ -231,6 +244,8 @@ function movePiece(pid, to){
   if (from) delete S.pos[from];
   S.pos[to] = pid;
   S.loc[pid] = to;
+  const piece = S.pieces[pid];
+  if (piece) piece.moved = true;
 }
 function toBoardPosition(state){
   const map = {};
@@ -295,7 +310,7 @@ function drawOverlays(){
     if (!el) continue;
     const b = document.createElement('div');
     b.className = 'hp-badge';
-    b.textContent = `HP ${p.hp}  A${p.atk} D${p.def}${p.move?` M${p.move}`:''}`;
+    b.textContent = `HP ${p.hp}  A${p.atk} D${p.def}${p.move?` M${p.move}`:''}${p.kind==='P' && !p.moved?' 2x':''}`;
     el.appendChild(b);
   }
 }
@@ -319,6 +334,7 @@ function highlightLegal(pid){
     `<div class="stat">ATK ${p.atk}</div>`+
     `<div class="stat">DEF ${p.def}</div>`+
     `${p.move?`<div class="stat">MOVE ${p.move}</div>`:''}`+
+    `${p.kind==='P' && !p.moved?`<div class="stat">Double step available</div>`:''}`+
     `<div>Square: <b>${mySq}</b></div>`;
 }
 
