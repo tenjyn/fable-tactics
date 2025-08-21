@@ -240,6 +240,7 @@ function toBoardPosition(state){
   }
   return map;
 }
+
 function endGame(msg){ S.over=true; setStatus(msg); }
 function log(msg){ S.log.unshift(msg); if (S.log.length>40) S.log.pop(); document.getElementById('log').innerHTML = S.log.map(l=>`• ${l}`).join('<br>'); }
 function setStatus(t){ document.getElementById('status').textContent = t; }
