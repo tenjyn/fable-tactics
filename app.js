@@ -240,11 +240,6 @@ function toBoardPosition(state){
   }
   return map;
 }
-function prettyPiece(p){
-  const names = {K:'King',Q:'Queen',R:'Rook',B:'Bishop',N:'Knight',P:'Pawn'};
-  const side = p.color === 'w' ? 'White' : 'Black';
-  return `${side} ${names[p.kind]}`;
-}
 function endGame(msg){ S.over=true; setStatus(msg); }
 function log(msg){ S.log.unshift(msg); if (S.log.length>40) S.log.pop(); document.getElementById('log').innerHTML = S.log.map(l=>`• ${l}`).join('<br>'); }
 function setStatus(t){ document.getElementById('status').textContent = t; }
