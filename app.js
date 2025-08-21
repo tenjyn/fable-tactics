@@ -248,13 +248,38 @@ function prettyPiece(p){
 }
 
 function endGame(msg){ S.over=true; setStatus(msg); }
-function log(msg){ S.log.unshift(msg); if (S.log.length>40) S.log.pop(); document.getElementById('log').innerHTML = S.log.map(l=>`• ${l}`).join('<br>'); }
-function setStatus(t){ document.getElementById('status').textContent = t; }
+function log(msg){
+  S.log.unshift(msg);
+  if (S.log.length>40) S.log.pop();
+  const logEl = document.getElementById('log');
+  if (logEl) {
+    logEl.innerHTML = S.log.map(l=>`• ${l}`).join('<br>');
+  } else {
+    console.warn('log element not found');
+  }
+}
+function setStatus(t){
+  const statusEl = document.getElementById('status');
+  if (statusEl) {
+    statusEl.textContent = t;
+  } else {
+    console.warn('status element not found');
+  }
+}
 
 function renderHUD(){
   const turnEl = document.getElementById('turn');
-  turnEl.textContent = S.over ? 'Game Over' : `${S.turn==='w'?'White':'Black'} to move`;
-  document.getElementById('selected').innerHTML = 'None';
+  if (turnEl) {
+    turnEl.textContent = S.over ? 'Game Over' : `${S.turn==='w'?'White':'Black'} to move`;
+  } else {
+    console.warn('turn element not found');
+  }
+  const selEl = document.getElementById('selected');
+  if (selEl) {
+    selEl.innerHTML = 'None';
+  } else {
+    console.warn('selected element not found');
+  }
 }
 
 // ---------- Visual Overlays (HP badges & legal highlights) ----------
