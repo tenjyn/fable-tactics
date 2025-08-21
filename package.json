@@ -4,10 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"No tests yet\""
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
