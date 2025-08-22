@@ -1,6 +1,3 @@
-const engine = typeof window === 'undefined' ? require('./src/gameEngine') : window.gameEngine;
-const { initialSetup, legalMoves, movePiece, findSquare, findPieceAt, toBoardPosition, prettyPiece, cloneState } = engine;
-
 let board, S = initialSetup();
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined' && typeof Chessboard !== 'undefined') {
@@ -57,8 +54,7 @@ function onDrop(source, target) {
   const defId = S.pos[target];
 
   if (!defId) {
-    movePiece(S, pid, target);
-    log(`${prettyPiece(attacker)} to ${target}`);
+
   } else {
     const defender = S.pieces[defId];
     const dmg = Math.max(1, attacker.atk - defender.def);
@@ -86,26 +82,19 @@ function onSnapEnd() {
   board.position(toBoardPosition(S));
 }
 
-function endGame(msg){ S.over=true; setStatus(msg); }
-function log(msg){
-  S.log.unshift(msg);
-  if (S.log.length>40) S.log.pop();
-  if (typeof document !== 'undefined') {
-    const el = document.getElementById('log');
-    if (el) el.innerHTML = S.log.map(l=>`• ${l}`).join('<br>');
-  }
-}
-function setStatus(t){
-  if (typeof document !== 'undefined') {
-    const el = document.getElementById('status');
-    if (el) el.textContent = t;
-  }
-}
-
 function renderHUD(){
   const turnEl = document.getElementById('turn');
-  turnEl.textContent = S.over ? 'Game Over' : `${S.turn==='w'?'White':'Black'} to move`;
-  document.getElementById('selected').innerHTML = 'None';
+  if (turnEl) {
+    turnEl.textContent = S.over ? 'Game Over' : `${S.turn==='w'?'White':'Black'} to move`;
+  } else {
+    console.warn('turn element not found');
+  }
+  const selEl = document.getElementById('selected');
+  if (selEl) {
+    selEl.innerHTML = 'None';
+  } else {
+    console.warn('selected element not found');
+  }
 }
 
 // ---------- Visual Overlays (HP badges & legal highlights) ----------
@@ -121,7 +110,7 @@ function drawOverlays(){
     if (!el) continue;
     const b = document.createElement('div');
     b.className = 'hp-badge';
-    b.textContent = `HP ${p.hp}  A${p.atk} D${p.def}${p.move?` M${p.move}`:''}`;
+    b.textContent = `HP ${p.hp}  A${p.atk} D${p.def}${p.move?` M${p.move}`:''}${p.kind==='P' && !p.moved?' 2x':''}`;
     el.appendChild(b);
   }
 }
@@ -145,6 +134,7 @@ function highlightLegal(pid){
     `<div class="stat">ATK ${p.atk}</div>`+
     `<div class="stat">DEF ${p.def}</div>`+
     `${p.move?`<div class="stat">MOVE ${p.move}</div>`:''}`+
+    `${p.kind==='P' && !p.moved?`<div class="stat">Double step available</div>`:''}`+
     `<div>Square: <b>${mySq}</b></div>`;
 }
 
