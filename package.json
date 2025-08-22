@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"No tests yet\""
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+
 }
