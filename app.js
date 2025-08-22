@@ -1,27 +1,4 @@
-let board, S = initialSetup();
 
-if (typeof window !== 'undefined' && typeof document !== 'undefined' && typeof Chessboard !== 'undefined') {
-  board = Chessboard('board', {
-    position: toBoardPosition(S),
-    draggable: true,
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd,
-    pieceTheme: pieceTheme
-  });
-
-  renderHUD();
-  drawOverlays();
-
-  document.getElementById('new').onclick = () => {
-    S = initialSetup();
-    board.position(toBoardPosition(S));
-    renderHUD();
-    drawOverlays();
-  };
-
-  document.getElementById('flip').onclick = () => { S.flipped = !S.flipped; board.flip(); };
-}
 
 function pieceTheme(pieceCode) {
   const c = pieceCode[0] === 'w' ? 'w' : 'b';
@@ -33,7 +10,7 @@ function onDragStart(source, piece, pos, orientation) {
   if (S.over) return false;
   const color = piece[0];
   if (color !== S.turn) return false;
-  const pid = findPieceAt(S, source);
+
   if (!pid) return false;
   S.selected = pid;
   highlightLegal(pid);
@@ -45,7 +22,7 @@ function onDrop(source, target) {
   S.selected = null;
   if (!pid) return 'snapback';
 
-  const legal = legalMoves(S, pid);
+
   const mv = legal.find(m => m.from === source && m.to === target);
   if (!mv) return 'snapback';
 
@@ -62,12 +39,12 @@ function onDrop(source, target) {
     if (defender.hp <= 0) {
       delete S.pos[target];
       delete S.loc[defId];
-      movePiece(S, pid, target);
+
       log(`${prettyPiece(attacker)} attacks ${prettyPiece(defender)} at ${target} for ${dmg} — defeated`);
       if (defender.kind === 'K') endGame(`${attacker.color === 'w' ? 'White' : 'Black'} wins (king defeated)`);
     } else {
       log(`${prettyPiece(attacker)} attacks ${prettyPiece(defender)} at ${target} for ${dmg} — ${defender.hp} HP left`);
-      movePiece(S, pid, source);
+
     }
   }
 
@@ -82,19 +59,7 @@ function onSnapEnd() {
   board.position(toBoardPosition(S));
 }
 
-function renderHUD(){
-  const turnEl = document.getElementById('turn');
-  if (turnEl) {
-    turnEl.textContent = S.over ? 'Game Over' : `${S.turn==='w'?'White':'Black'} to move`;
-  } else {
-    console.warn('turn element not found');
-  }
-  const selEl = document.getElementById('selected');
-  if (selEl) {
-    selEl.innerHTML = 'None';
-  } else {
-    console.warn('selected element not found');
-  }
+
 }
 
 // ---------- Visual Overlays (HP badges & legal highlights) ----------
@@ -110,15 +75,14 @@ function drawOverlays(){
     if (!el) continue;
     const b = document.createElement('div');
     b.className = 'hp-badge';
-    b.textContent = `HP ${p.hp}  A${p.atk} D${p.def}${p.move?` M${p.move}`:''}${p.kind==='P' && !p.moved?' 2x':''}`;
+
     el.appendChild(b);
   }
 }
 
 function highlightLegal(pid){
   clearHighlights();
-  const ls = legalMoves(S, pid);
-  const mySq = findSquare(S, pid);
+
   const me = document.querySelector(`#board .square-${mySq}`);
   if (me) me.classList.add('legal');
   for (const m of ls){
@@ -134,7 +98,7 @@ function highlightLegal(pid){
     `<div class="stat">ATK ${p.atk}</div>`+
     `<div class="stat">DEF ${p.def}</div>`+
     `${p.move?`<div class="stat">MOVE ${p.move}</div>`:''}`+
-    `${p.kind==='P' && !p.moved?`<div class="stat">Double step available</div>`:''}`+
+
     `<div>Square: <b>${mySq}</b></div>`;
 }
 
