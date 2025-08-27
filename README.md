@@ -2,7 +2,7 @@
 
 ## Dashboard
 
-Open `index.html` to view piece statistics, choose a piece type, and start a new game. Clicking **Start Game** loads `game.html`, which contains the chess board.
+
 
 ## Testing
 
