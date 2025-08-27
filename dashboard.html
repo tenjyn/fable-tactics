@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fable Tactics Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Fable Tactics Dashboard</h1>
+  <div id="dashboard" class="panel">
+    <label for="pieceSelect">Choose a piece type:</label>
+    <select id="pieceSelect">
+      <option value="K">King</option>
+      <option value="Q">Queen</option>
+      <option value="R">Rook</option>
+      <option value="B">Bishop</option>
+      <option value="N">Knight</option>
+      <option value="P">Pawn</option>
+    </select>
+    <div id="stats" style="margin-top:12px"></div>
+    <button id="startBtn" style="margin-top:12px">Start Game</button>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

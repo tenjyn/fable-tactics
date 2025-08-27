@@ -4,10 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
 }
