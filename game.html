@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Stat-Chess (HP/ATK/DEF/MOVE)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard-1.0.0.min.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Stat-Chess</h1>
+  <div id="topbar">
+    <button id="new">New Game</button>
+    <button id="flip">Flip Board</button>
+    <span class="status" id="turn"></span>
+  </div>
+
+  <div class="wrap">
+    <div id="board"></div>
+
+    <div id="side" class="panel">
+      <h3>Selected</h3>
+      <div id="selected">None</div>
+      <h3>Log</h3>
+      <div id="log" class="tiny"></div>
+      <h3>Rules (short)</h3>
+      <ul class="tiny">
+        <li>Move like standard chess (no castling/promo/en passant).</li>
+        <li>Sliding pieces (R/B/Q) are capped by their <b>MOVE</b> stat.</li>
+        <li>Attack by moving onto an enemy. Damage = max(1, ATK − DEF).</li>
+        <li>If the defender survives, the attacker bounces back to its origin.</li>
+        <li>Win by defeating the enemy King.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard-1.0.0.min.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>

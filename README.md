@@ -2,7 +2,7 @@
 
 ## Dashboard
 
-Open `dashboard.html` to view piece statistics, choose a piece type, and start a new game.
+
 
 ## Testing
 

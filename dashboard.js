@@ -21,7 +21,5 @@ function updateStats(){
 
 document.getElementById('pieceSelect').addEventListener('change', updateStats);
 document.getElementById('startBtn').addEventListener('click', () => {
-  window.location.href = 'index.html';
-});
 
 updateStats();
