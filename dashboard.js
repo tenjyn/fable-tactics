@@ -21,5 +21,8 @@ function updateStats(){
 
 document.getElementById('pieceSelect').addEventListener('change', updateStats);
 document.getElementById('startBtn').addEventListener('click', () => {
+  updateStats();
+  window.location.href = 'game.html';
+});
 
 updateStats();
