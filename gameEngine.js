@@ -167,11 +167,47 @@ function resolveCombat(state, attackerId, targetSq){
   }
 }
 
+function toBoardPosition(state){
+  const map = {};
+  for (const [sq,id] of Object.entries(state.pos)){
+    const p = state.pieces[id];
+    map[sq] = p.color + p.kind;
+  }
+  return map;
+}
+
+function prettyPiece(p){
+  const names = {K:'King',Q:'Queen',R:'Rook',B:'Bishop',N:'Knight',P:'Pawn'};
+  const side = p.color === 'w' ? 'White' : 'Black';
+  return `${side} ${names[p.kind]}`;
+}
+
+function cloneState(s){
+  return typeof structuredClone === 'function' ? structuredClone(s) : JSON.parse(JSON.stringify(s));
+}
+
 module.exports = {
   initialSetup,
   legalMoves,
   movesPawn,
   resolveCombat,
   movePiece,
-  pieceStats
+  pieceStats,
+  toBoardPosition,
+  prettyPiece,
+  cloneState
 };
+
+if (typeof window !== 'undefined') {
+  window.gameEngine = {
+    initialSetup,
+    legalMoves,
+    movesPawn,
+    resolveCombat,
+    movePiece,
+    pieceStats,
+    toBoardPosition,
+    prettyPiece,
+    cloneState
+  };
+}

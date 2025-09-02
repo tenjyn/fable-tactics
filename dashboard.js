@@ -1,11 +1,6 @@
-const pieceStats = {
-  K:{hp:10, atk:3, def:2},
-  Q:{hp:7, atk:5, def:1, move:7},
-  R:{hp:6, atk:4, def:2, move:7},
-  B:{hp:5, atk:3, def:1, move:7},
-  N:{hp:5, atk:3, def:2},
-  P:{hp:3, atk:2, def:0}
-};
+/* Dashboard for inspecting piece stats and starting a game. */
+
+const { pieceStats } = window.gameEngine;
 
 function updateStats(){
   const type = document.getElementById('pieceSelect').value;
@@ -21,5 +16,7 @@ function updateStats(){
 
 document.getElementById('pieceSelect').addEventListener('change', updateStats);
 document.getElementById('startBtn').addEventListener('click', () => {
+  window.location.href = 'game.html';
+});
 
 updateStats();
