@@ -1,8 +1,12 @@
 # Fable Tactics
 
+## Main Page
+
+Open `main.html` in a browser to learn the rules and how to start a match.
+
 ## Dashboard
 
-
+The dashboard (`dashboard.html`) lets you inspect piece stats and launch a game.
 
 ## Testing
 
